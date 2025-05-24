@@ -1,187 +1,238 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivia King - Ultra Futuriste</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at center, #0ff, #00f, #000);
-      font-family: 'Orbitron', sans-serif;
-      color: white;
-      overflow-x: hidden;
-    }
-
-    .page {
-      display: none;
-      height: 100vh;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .active {
-      display: flex !important;
-    }
-
-    h1 {
-      font-size: 3em;
-      text-shadow: 0 0 10px #0ff;
-    }
-
-    p {
-      font-size: 1.2em;
-      max-width: 600px;
-      margin: 10px auto;
-      text-shadow: 0 0 5px #0ff;
-    }
-
-    .button {
-      margin: 20px;
-      padding: 15px 30px;
-      font-size: 1.2em;
-      color: black;
-      background: linear-gradient(45deg, cyan, blue);
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      box-shadow: 0 0 20px #0ff;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
-    }
-
-    input[type="email"], input[type="text"] {
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 1.1em;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    #logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 2em;
-      color: cyan;
-      text-shadow: 0 0 15px #0ff;
-    }
-
-    #email-list {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 20px;
-      max-width: 400px;
-    }
-
-    #email-list p {
-      color: #0ff;
-      font-size: 1em;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trivia King - Ultra Futuriste</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin:0; padding:0;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #0ff, #00f, #000);
+    color: #0ff;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    position: fixed;
+    top:0; left:0; right:0;
+    height: 60px;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items:center;
+    padding: 0 20px;
+    box-shadow: 0 0 15px #0ff;
+    z-index: 1000;
+  }
+  header img {
+    height: 40px;
+    margin-right: 15px;
+  }
+  header h1 {
+    font-size: 1.5em;
+    margin: 0;
+    color: #0ff;
+    text-shadow: 0 0 8px #0ff;
+  }
+  main {
+    margin-top: 60px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 0 40px #0ff inset;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #intro, #game, #challengeList {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  #intro.active, #game.active, #challengeList.active {
+    display: flex;
+  }
+  label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  input[type=email] {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1em;
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    outline: none;
+    box-shadow: 0 0 10px #0ff;
+    background: rgba(0,0,0,0.2);
+    color: #0ff;
+  }
+  button {
+    background: linear-gradient(45deg, cyan, blue);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: black;
+    box-shadow: 0 0 20px #0ff;
+    transition: all 0.3s ease;
+    margin: 10px;
+    min-width: 120px;
+  }
+  button:disabled {
+    background: #005;
+    box-shadow: none;
+    cursor: not-allowed;
+    color: #333;
+  }
+  button:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
+  }
+  #questionText {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px #0ff;
+  }
+  #answerInput {
+    width: 80%;
+    max-width: 400px;
+    font-size: 1.2em;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px #0ff;
+    outline: none;
+    background: rgba(0,0,0,0.2);
+    color: #0ff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #feedback {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    height: 30px;
+  }
+  #loader {
+    border: 4px solid #00f;
+    border-top: 4px solid #0ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+    display: none;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+  }
+  #buttonsRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+  }
+  #challengeList table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    color: #0ff;
+  }
+  #challengeList th, #challengeList td {
+    border: 1px solid #0ff;
+    padding: 8px;
+  }
+  #challengeList th {
+    background: rgba(0,255,255,0.2);
+  }
+  #challengeList .no-friends {
+    margin-top: 15px;
+    font-style: italic;
+    color: #008;
+  }
+</style>
 </head>
 <body>
-  <div id="logo">🤖 Trivia King</div>
 
-  <div class="page active" id="page-welcome">
-    <h1>Bienvenue sur Trivia King</h1>
-    <p>Le jeu de quiz le plus futuriste de l'univers. Défiez vos amis. Apprenez en vous amusant.</p>
-    <input type="email" id="email" placeholder="Entrez votre adresse e-mail">
-    <button class="button" onclick="checkEmail()">S'inscrire</button>
-  </div>
+<header>
+  <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Logo Trivia King" />
+  <h1>Trivia King</h1>
+</header>
 
-  <div class="page" id="page-quiz">
-    <h1 id="question-title">Question 1</h1>
-    <p id="question-text">Quelle est la capitale de la France ?</p>
-    <input type="text" id="answer" placeholder="Votre réponse">
-    <div>
-      <button class="button" onclick="prevQuestion()">Retour</button>
-      <button class="button" onclick="nextQuestion()">Suivant</button>
+<main>
+  <section id="intro" class="active" aria-label="Inscription">
+    <label for="emailInput">Entrez votre adresse e-mail :</label>
+    <input type="email" id="emailInput" placeholder="exemple@domaine.com" autocomplete="email" />
+    <button id="signupBtn" disabled>S'inscrire</button>
+  </section>
+
+  <section id="game" aria-label="Jeu de questions">
+    <div id="loader"></div>
+    <div id="questionText"></div>
+    <input type="text" id="answerInput" placeholder="Tape ta réponse ici" autocomplete="off" />
+    <div id="feedback"></div>
+    <div id="buttonsRow">
+      <button id="backBtn" disabled>Retour</button>
+      <button id="okBtn">OK</button>
+      <button id="nextBtn" disabled>Suivant</button>
     </div>
-    <button class="button" onclick="defierAmi()">Défier quelqu'un</button>
-  </div>
+    <button id="challengeBtn" style="margin-top:15px;">Défier quelqu'un</button>
+  </section>
 
-  <div class="page" id="page-defi">
-    <h1>Liste d'amis</h1>
-    <div id="email-list">
-      <p>Aucun ami à défier pour le moment.</p>
-    </div>
-    <button class="button" onclick="retourQuiz()">Retour au Quiz</button>
-  </div>
+  <section id="challengeList" aria-label="Liste des amis à défier">
+    <h2>Choisissez un ami à défier</h2>
+    <table id="friendsTable" aria-live="polite" aria-relevant="additions removals">
+      <thead>
+        <tr><th>Adresse e-mail</th><th>Action</th></tr>
+      </thead>
+      <tbody id="friendsBody">
+        <!-- Dynamically filled -->
+      </tbody>
+    </table>
+    <div class="no-friends">Vous n'avez pas encore d'amis à défier.</div>
+    <button id="backToGameBtn">Retour au jeu</button>
+  </section>
+</main>
 
-  <script>
-    const questions = [
-      "Quelle est la capitale de la France ?",
-      "Combien font 7 x 8 ?",
-      "Qui a écrit Les Misérables ?",
-      "Quelle est la planète la plus proche du Soleil ?",
-      "En quelle année a eu lieu la Révolution française ?"
-    ];
-    let currentQuestion = 0;
+<script>
+  // Questions exemple (à étoffer)
+  const allQuestions = [
+    {q:"Quelle est la capitale de la France ?", a:"Paris"},
+    {q:"Combien de continents y a-t-il ?", a:"7"},
+    {q:"Quelle est la couleur du ciel ?", a:"Bleu"},
+    {q:"Quel est l'animal roi de la jungle ?", a:"Lion"},
+    {q:"Combien de doigts a une main ?", a:"5"},
+    {q:"Quelle planète est appelée la planète rouge ?", a:"Mars"},
+    {q:"Quelle langue parle-t-on au Brésil ?", a:"Portugais"},
+    {q:"Quel est le plus grand océan ?", a:"Pacifique"},
+    {q:"Qui a inventé l'ampoule électrique ?", a:"Edison"},
+    {q:"Combien de jours y a-t-il dans une année ?", a:"365"}
+  ];
+  // Tirage aléatoire sans répétition pour 5 questions
+  function getRandomQuestions() {
+    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0,5);
+  }
 
-    function checkEmail() {
-      const email = document.getElementById('email').value;
-      if (!email) {
-        alert("Veuillez entrer une adresse e-mail.");
-        return;
-      }
-      changePage('page-quiz');
-      showQuestion();
-    }
+  // Elements
+  const introSection = document.getElementById('intro');
+  const gameSection = document.getElementById('game');
+  const challengeListSection = document.getElementById('challengeList');
 
-    function showQuestion() {
-      document.getElementById("question-title").innerText = `Question ${currentQuestion + 1}`;
-      document.getElementById("question-text").innerText = questions[currentQuestion];
-      document.getElementById("answer").value = "";
-    }
-
-    function nextQuestion() {
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        showQuestion();
-      }
-    }
-
-    function prevQuestion() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        showQuestion();
-      }
-    }
-
-    function defierAmi() {
-      changePage('page-defi');
-    }
-
-    function retourQuiz() {
-      changePage('page-quiz');
-    }
-
-    function changePage(id) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
-    window.onblur = () => {
-      alert("On a remarqué un changement de page. Cette réponse ne sera pas valide.");
-    };
-  </script>
-</body>
-</html>
+  const emailInput = document.getElementById('emailInput');
+  const signupBtn = document
