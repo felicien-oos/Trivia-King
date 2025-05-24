@@ -12,33 +12,37 @@
       background: radial-gradient(circle at center, #0ff, #00f, #000);
       font-family: 'Orbitron', sans-serif;
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    .container {
+    .page {
       display: none;
-      flex-direction: column;
+      height: 100vh;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       text-align: center;
-      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
     }
 
-    #intro {
-      display: flex;
+    .active {
+      display: flex !important;
     }
 
-    #game {
-      display: none;
+    h1 {
+      font-size: 3em;
+      text-shadow: 0 0 10px #0ff;
     }
 
-    #question {
-      font-size: 1.5em;
-      margin-bottom: 20px;
+    p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin: 10px auto;
+      text-shadow: 0 0 5px #0ff;
     }
 
     .button {
-      margin: 10px;
+      margin: 20px;
       padding: 15px 30px;
       font-size: 1.2em;
       color: black;
@@ -55,68 +59,129 @@
       box-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
     }
 
+    input[type="email"], input[type="text"] {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1.1em;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2em;
+      color: cyan;
+      text-shadow: 0 0 15px #0ff;
+    }
+
+    #email-list {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px;
+      max-width: 400px;
+    }
+
+    #email-list p {
+      color: #0ff;
+      font-size: 1em;
+    }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
+      from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <div id="intro" class="container">
+  <div id="logo">🤖 Trivia King</div>
+
+  <div class="page active" id="page-welcome">
     <h1>Bienvenue sur Trivia King</h1>
-    <p>Le jeu de quiz le plus futuriste de l'univers. Défiez vos amis. Apprenez en vous amusant. Devenez le roi des questions.</p>
-    <button class="button" onclick="showGame()">S'inscrire & Commencer</button>
+    <p>Le jeu de quiz le plus futuriste de l'univers. Défiez vos amis. Apprenez en vous amusant.</p>
+    <input type="email" id="email" placeholder="Entrez votre adresse e-mail">
+    <button class="button" onclick="checkEmail()">S'inscrire</button>
   </div>
 
-  <div id="game" class="container">
-    <div id="question">Chargement de la première question...</div>
-    <button class="button" onclick="prevQuestion()">← Retour</button>
-    <button class="button" onclick="nextQuestion()">Suivant →</button>
-    <button class="button" onclick="challengeFriend()">Défier quelqu'un</button>
+  <div class="page" id="page-quiz">
+    <h1 id="question-title">Question 1</h1>
+    <p id="question-text">Quelle est la capitale de la France ?</p>
+    <input type="text" id="answer" placeholder="Votre réponse">
+    <div>
+      <button class="button" onclick="prevQuestion()">Retour</button>
+      <button class="button" onclick="nextQuestion()">Suivant</button>
+    </div>
+    <button class="button" onclick="defierAmi()">Défier quelqu'un</button>
+  </div>
+
+  <div class="page" id="page-defi">
+    <h1>Liste d'amis</h1>
+    <div id="email-list">
+      <p>Aucun ami à défier pour le moment.</p>
+    </div>
+    <button class="button" onclick="retourQuiz()">Retour au Quiz</button>
   </div>
 
   <script>
     const questions = [
       "Quelle est la capitale de la France ?",
-      "Combien de planètes dans le système solaire ?",
-      "Quel est le plus grand océan ?",
-      "En quelle année l’homme a-t-il marché sur la Lune ?",
-      "Qui a écrit 'Le Petit Prince' ?"
+      "Combien font 7 x 8 ?",
+      "Qui a écrit Les Misérables ?",
+      "Quelle est la planète la plus proche du Soleil ?",
+      "En quelle année a eu lieu la Révolution française ?"
     ];
+    let currentQuestion = 0;
 
-    let currentIndex = 0;
-
-    function showGame() {
-      document.getElementById('intro').style.display = 'none';
-      document.getElementById('game').style.display = 'flex';
-      displayQuestion();
+    function checkEmail() {
+      const email = document.getElementById('email').value;
+      if (!email) {
+        alert("Veuillez entrer une adresse e-mail.");
+        return;
+      }
+      changePage('page-quiz');
+      showQuestion();
     }
 
-    function displayQuestion() {
-      document.getElementById('question').innerText = questions[currentIndex];
+    function showQuestion() {
+      document.getElementById("question-title").innerText = `Question ${currentQuestion + 1}`;
+      document.getElementById("question-text").innerText = questions[currentQuestion];
+      document.getElementById("answer").value = "";
     }
 
     function nextQuestion() {
-      if (currentIndex < questions.length - 1) {
-        currentIndex++;
-        displayQuestion();
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
       }
     }
 
     function prevQuestion() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        displayQuestion();
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
       }
     }
 
-    function challengeFriend() {
-      alert("Liste d'amis s'affichera ici. (fonctionnalité future)");
+    function defierAmi() {
+      changePage('page-defi');
     }
 
-    window.addEventListener('blur', () => {
+    function retourQuiz() {
+      changePage('page-quiz');
+    }
+
+    function changePage(id) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    window.onblur = () => {
       alert("On a remarqué un changement de page. Cette réponse ne sera pas valide.");
-    });
+    };
   </script>
 </body>
 </html>
