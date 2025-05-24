@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia King - Ultra Futuriste</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #0ff, #00f, #000);
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    #intro {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px #0ff;
+      margin: 20px;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin: auto;
+      text-shadow: 0 0 5px #0ff;
+    }
+
+    .button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      color: black;
+      background: linear-gradient(45deg, cyan, blue);
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #0ff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <h1>Bienvenue sur Trivia King</h1>
+    <p>Le jeu de quiz le plus futuriste de l'univers. Défiez vos amis. Apprenez en vous amusant. Devenez le roi des questions.</p>
+    <button class="button" onclick="startGame()">S'inscrire & Commencer</button>
+  </div>
+
+  <script>
+    function startGame() {
+      alert("Chargement de l'expérience Trivia King... (version futuriste)");
+      // ICI tu pourras charger la suite du jeu, les questions, etc.
+    }
+  </script>
+</body>
+</html>
